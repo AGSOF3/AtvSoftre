@@ -31,6 +31,8 @@ import com.thera.thermfw.base.TimeUtils;
 import com.thera.thermfw.base.Trace;
 import com.thera.thermfw.common.ErrorMessage;
 import com.thera.thermfw.persist.CachedStatement;
+import com.thera.thermfw.persist.ConnectionManager;
+import com.thera.thermfw.persist.Database;
 import com.thera.thermfw.persist.Factory;
 import com.thera.thermfw.persist.KeyHelper;
 import com.thera.thermfw.persist.PersistentObject;
@@ -62,6 +64,11 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 	//Per evitare buchi non usiamo THERA.NUMERATOR ma usiamo una nostra query
 	public static final String STMT_NEXT_PROGR = "SELECT (COALESCE(MAX("+AttivitaSoftreTM.ID+"),0)+1) AS NEXT_VALUE FROM "+AttivitaSoftreTM.TABLE_NAME+" ";
 	public static final CachedStatement cNextProgressivo = new CachedStatement(STMT_NEXT_PROGR);
+
+	protected static final String CLEAR_INCARICATO = "UPDATE " +
+			""+AttivitaSoftreTM.TABLE_NAME+" SET "+AttivitaSoftreTM.R_INCARICATO+" = NULL "+
+			"WHERE "+AttivitaSoftreTM.ID_AZIENDA+" = ? AND "+AttivitaSoftreTM.ID+" = ? ";
+	public static CachedStatement cClearIncaricato = new CachedStatement(CLEAR_INCARICATO);
 
 	protected AttivitaSoftre iOldAttivita;
 
@@ -150,7 +157,22 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 			//allora devo notificare all'incaricato l'assegnazione della attività
 			notificaIncaricatoAssegnazioneAttivita();
 		}
+		if(rc > 0) {
+			clearIncaricato(this);
+		}
 		return rc;
+	}
+
+	public static synchronized int clearIncaricato(AttivitaSoftre attivita) throws SQLException{
+		PreparedStatement ps = cClearIncaricato.getStatement();
+		Database db = ConnectionManager.getCurrentDatabase();
+
+		db.setString(ps, 1, attivita.getIdAzienda());
+		db.setString(ps, 2, attivita.getId().toString());
+		if (ps.executeUpdate() >= 0)
+			return 1;
+
+		return 0;
 	}
 
 	public boolean isAssegnazioneDaNotificare(boolean isOnDB) {
@@ -362,7 +384,7 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 		//Facciamo che il campo e' usato solo per comodo, ad ogni salvataggio se l'incaricato indicato non e'
 		//presente nei collaboratori allora lo codifico
 		//Sara' poi l'utente a video a rimuovere nel caso i collaboratori indesiderati
-		setIncaricato(null); 
+		//setIncaricato(null); 
 	}
 
 	protected void calcolaGiorniQuotazione() {
@@ -376,9 +398,9 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 		if(getQuotazioneGg() != null 
 				&& getQuotazioneGg().compareTo(BigDecimal.ZERO) > 0
 				&& getDataPrevistaConsegna() != null) {
-			
-	        int giorniDaAggiungere = getQuotazioneGg().setScale(0, RoundingMode.CEILING).intValue();
-	        setDataInizio(TimeUtils.addDays(getDataPrevistaConsegna(), - giorniDaAggiungere + 1));
+
+			int giorniDaAggiungere = getQuotazioneGg().setScale(0, RoundingMode.CEILING).intValue();
+			setDataInizio(TimeUtils.addDays(getDataPrevistaConsegna(), - giorniDaAggiungere + 1));
 		}
 		//..Se non ho valorizzato l'effort ma ho la data consegna allora la 'faro' quel giorno, in questo modo la possiamo vedere a calendario
 		if((getQuotazioneGg() == null || getQuotazioneGg().compareTo(BigDecimal.ZERO) == 0)
