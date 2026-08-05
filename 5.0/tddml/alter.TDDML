@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+
+<AlterTable name="CLIENTE_SOFTRE" schema="SOFTRE">
+	<AddColumn>
+		<Column name="REF_PERSONALIZZAZIONI" shortname="REF_PERS" type="char" length="8" nullable="yes"/>
+	   <Continue/>
+	</AddColumn>
+</AlterTable>
+
+<Grant name="CLIENTE_SOFTRE" schema="SOFTRE"/>
+
+</TDDML>

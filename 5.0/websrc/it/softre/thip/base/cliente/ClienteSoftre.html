@@ -1,0 +1,802 @@
+<html>
+
+<head>
+<style>
+details.custom-details.wifi-fixed fieldset,
+details.custom-details.server-fixed fieldset {
+    max-width: 900px; 
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+details.custom-details.wifi-fixed fieldset > table,
+details.custom-details.server-fixed fieldset > table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+fieldset {
+	width: fit-content;
+	padding: 5px !important;
+}
+
+/* Container */
+.custom-details {
+	width: fit-content;
+	border: 1px solid #d6d6d6;
+	margin-bottom: 8px;
+	background-color: #f9f9f9;
+}
+
+/* Header */
+.custom-details summary {
+	padding: 8px 12px;
+	font-weight: bold;
+	font-size: 13px;
+	background-color: #ececec;
+	cursor: pointer;
+	list-style: none;
+}
+
+/* Remove default arrow */
+.custom-details summary::-webkit-details-marker {
+	display: none;
+}
+
+/* Custom arrow using simple ASCII character */
+.custom-details summary:before {
+	content: ">";
+	margin-right: 8px;
+	display: inline-block;
+	transition: transform 0.2s ease;
+}
+
+/* Rotate arrow when open */
+.custom-details[open] summary:before {
+	transform: rotate(90deg);
+}
+
+/* Hover */
+.custom-details summary:hover {
+	background-color: #e2e2e2;
+}
+
+/* Content */
+.details-content {
+	padding: 12px;
+	background-color: #ffffff;
+	border-top: 1px solid #d6d6d6;
+}
+
+/* Width of field "Elenco moduli installati" when is open */
+#moduliDetails[open] {
+	width: 50%;
+}
+</style>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<form name="ClienteSoftreForm">
+		<table height="100%" width="100%" cellspacing="0" cellpadding="0"
+			id="emptyborder">
+			<tr>
+				<td style="height: 0"><span class="menubar" id="myMenuBar" />
+				</td>
+			</tr>
+			<tr>
+				<td style="height: 0"><span class="toolbar" id="myToolBar" />
+				</td>
+			</tr>
+			<tr>
+				<td><input type="hidden" name="IdAzienda" id="IdAzienda" /></td>
+			</tr>
+			<tr>
+				<td><span class="tabbed" id="mytabbed"> <span
+						class="tab" id="tab1">
+							<table style="width: 100%; height: 100%;">
+								<tr>
+									<td style="width: 30%" valign="top">
+										<table>
+											<tr>
+												<td valign="top"><label for="AnagraficoDiBase"></label></td>
+												<td valign="top"><span class="multisearchform"
+													id="AnagraficoDiBase"></span></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ProdottoPrincipale"></label>
+												</td>
+												<td valign="top"><select name="ProdottoPrincipale"
+													id="ProdottoPrincipale"></select></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ProdottoPrincipaleCont"></label>
+												</td>
+												<td valign="top"><select name="ProdottoPrincipaleCont"
+													id="ProdottoPrincipaleCont"></select></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="NumeroUtenti"></label></td>
+												<td valign="top"><input id="NumeroUtenti"
+													name="NumeroUtenti"></input></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="CapoProgettoCliente"></label>
+												</td>
+												<td valign="top"><span class="multisearchform"
+													id="CapoProgettoCliente"></span></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ReferenteGestionale"></label>
+												</td>
+												<td valign="top"><span class="multisearchform"
+													id="ReferenteGestionale"></span></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ReferenteContabile"></label>
+												</td>
+												<td valign="top"><span class="multisearchform"
+													id="ReferenteContabile"></span></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ReferenteCommercialeSmeup"></label>
+												</td>
+												<td valign="top"><span class="multisearchform"
+													id="ReferenteCommercialeSmeup"></span></td>
+											</tr>
+											<tr style="display: none">
+												<td valign="top"><label for="ReferenteSisthCommerciale"></label>
+												</td>
+												<td valign="top"><span class="multisearchform"
+													id="ReferenteSisthCommerciale"></span></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ProprietaCliente"></label>
+												</td>
+												<td valign="top"><select name="ProprietaCliente"
+													id="ProprietaCliente"></select></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="DatiExtraCliente"></label>
+												</td>
+												<td valign="top"><textarea id="DatiExtraCliente"
+														name="DatiExtraCliente" cols="60" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="NoteCliente"></label></td>
+												<td valign="top"><textarea id="NoteCliente"
+														name="NoteCliente" cols="60" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td><span class="subform" name="T3" id="T3"></span></td>
+											</tr>
+										</table>
+									</td>
+									<td style="width: 70%" valign="top">
+										<table style="width: 100%;">
+											<tr>
+												<td valign="top"><details class="custom-details">
+														<summary>Informazioni su Panthera (01)</summary>
+														<fieldset>
+															<table>
+																<tr>
+																	<td valign="top"><label for="PthVrm01"></label></td>
+																	<td valign="top"><input id="PthVrm01"
+																		name="PthVrm01"></input></td>
+																</tr>
+																<tr>
+																	<td valign="top"><label for="SirioVrm01"></label></td>
+																	<td valign="top"><input id="SirioVrm01"
+																		name="SirioVrm01"></input></td>
+																</tr>
+
+																<!-- 													<tr> -->
+																<!-- 														<td colspan="2"> -->
+																<!-- 															<fieldset> -->
+																<!-- 																<legend>NGINX</legend> -->
+																<!-- 																<table> -->
+																<!-- 																	<tr> -->
+																<!-- 																		<td valign="top"><label for="NginxActive01"></label></td> -->
+																<!-- 																		<td valign="top"><input id="NginxActive01" -->
+																<!-- 																			name="NginxActive01"></input></td> -->
+																<!-- 																	</tr> -->
+																<!-- 																</table> -->
+																<!-- 															</fieldset> -->
+																<!-- 														</td> -->
+																<!-- 													</tr> -->
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul tool di stampa</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="CrystalVrm01"></label></td>
+																					<td valign="top"><input id="CrystalVrm01"
+																						name="CrystalVrm01"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sull'application server</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label
+																						for="ApplicationSvrv01"></label></td>
+																					<td valign="top"><input id="ApplicationSvrv01"
+																						name="ApplicationSvrv01"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label
+																						for="ApplicationSrvVer01"></label></td>
+																					<td valign="top"><input
+																						id="ApplicationSrvVer01"
+																						name="ApplicationSrvVer01"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="JvmApplication01"></label></td>
+																					<td valign="top"><input id="JvmApplication01"
+																						name="JvmApplication01"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul batch server</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="JvmBatch01"></label></td>
+																					<td valign="top"><input id="JvmBatch01"
+																						name="JvmBatch01"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul database</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="DbVendor01"></label></td>
+																					<td valign="top"><input id="DbVendor01"
+																						name="DbVendor01"></input></td>
+																				</tr>
+																				<!-- 72424 inizio -->
+																				<tr id="rowSQLServerExpress01">
+																					<td valign="top"><input type="checkbox"
+																						id="SQLServerExpress01" name="SQLServerExpress01" /></td>
+																				</tr>
+																				<!-- 72424 fine -->
+																				<tr>
+																					<td valign="top"><label for="DbVrmVendor01"></label></td>
+																					<td valign="top"><input id="DbVrmVendor01"
+																						name="DbVrmVendor01"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="DbDriver01"></label></td>
+																					<td valign="top"><input id="DbDriver01"
+																						name="DbDriver01"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="DbVrmDriver01"></label></td>
+																					<td valign="top"><input id="DbVrmDriver01"
+																						name="DbVrmDriver01"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+
+															</table>
+														</fieldset>
+													</details> <details class="custom-details">
+														<summary>Informazioni su Panthera (02)</summary>
+														<fieldset>
+															<table>
+																<tr>
+																	<td valign="top"><label for="PthVrm02"></label></td>
+																	<td valign="top"><input id="PthVrm02"
+																		name="PthVrm02"></input></td>
+																</tr>
+																<tr>
+																	<td valign="top"><label for="SirioVrm02"></label></td>
+																	<td valign="top"><input id="SirioVrm02"
+																		name="SirioVrm02"></input></td>
+																</tr>
+
+																<!-- 													<tr> -->
+																<!-- 														<td colspan="2"> -->
+																<!-- 															<fieldset> -->
+																<!-- 																<legend>NGINX</legend> -->
+																<!-- 																<table> -->
+																<!-- 																	<tr> -->
+																<!-- 																		<td valign="top"><label for="NginxActive02"></label></td> -->
+																<!-- 																		<td valign="top"><input id="NginxActive02" -->
+																<!-- 																			name="NginxActive02"></input></td> -->
+																<!-- 																	</tr> -->
+																<!-- 																</table> -->
+																<!-- 															</fieldset> -->
+																<!-- 														</td> -->
+																<!-- 													</tr> -->
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul tool di stampa</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="CrystalVrm02"></label></td>
+																					<td valign="top"><input id="CrystalVrm02"
+																						name="CrystalVrm02"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sull'application server</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label
+																						for="ApplicationSvrv02"></label></td>
+																					<td valign="top"><input id="ApplicationSvrv02"
+																						name="ApplicationSvrv02"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label
+																						for="ApplicationSrvVer02"></label></td>
+																					<td valign="top"><input
+																						id="ApplicationSrvVer02"
+																						name="ApplicationSrvVer02"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="JvmApplication02"></label></td>
+																					<td valign="top"><input id="JvmApplication02"
+																						name="JvmApplication02"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul batch server</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="JvmBatch02"></label></td>
+																					<td valign="top"><input id="JvmBatch02"
+																						name="JvmBatch02"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+
+																<tr>
+																	<td colspan="2">
+																		<fieldset>
+																			<legend>Informazioni sul database</legend>
+																			<table>
+																				<tr>
+																					<td valign="top"><label for="DbVendor02"></label></td>
+																					<td valign="top"><input id="DbVendor02"
+																						name="DbVendor02"></input></td>
+																				</tr>
+																				<!-- 72424 inizio -->
+																				<tr id="rowSQLServerExpress02">
+																					<td valign="top"><input type="checkbox"
+																						id="SQLServerExpress02" name="SQLServerExpress02" /></td>
+																				</tr>
+																				<!-- 72424 fine -->
+																				<tr>
+																					<td valign="top"><label for="DbVrmVendor02"></label></td>
+																					<td valign="top"><input id="DbVrmVendor02"
+																						name="DbVrmVendor02"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="DbDriver02"></label></td>
+																					<td valign="top"><input id="DbDriver02"
+																						name="DbDriver02"></input></td>
+																				</tr>
+																				<tr>
+																					<td valign="top"><label for="DbVrmDriver02"></label></td>
+																					<td valign="top"><input id="DbVrmDriver02"
+																						name="DbVrmDriver02"></input></td>
+																				</tr>
+																			</table>
+																		</fieldset>
+																	</td>
+																</tr>
+															</table>
+														</fieldset>
+													</details> <details class="custom-details">
+														<summary>Informazioni sistema operativo</summary>
+														<fieldset>
+															<table>
+																<tr>
+																	<td valign="top"><label for="OsName"></label></td>
+																	<td valign="top"><input id="OsName" name="OsName"></input></td>
+																</tr>
+																<tr>
+																	<td valign="top"><label for="OsVersion"></label></td>
+																	<td valign="top"><input id="OsVersion"
+																		name="OsVersion"></input></td>
+																</tr>
+																<tr>
+																	<td valign="top"><label for="OsArchitecture"></label></td>
+																	<td valign="top"><input id="OsArchitecture"
+																		name="OsArchitecture"></input></td>
+																</tr>
+															</table>
+														</fieldset>
+													</details> <details class="custom-details">
+														<summary>Area riservata Panthera</summary>
+														<fieldset>
+															<table>
+																<tr>
+																	<td valign="top"><label
+																		for="UtenteAreaRiservataPth"></label></td>
+																	<td valign="top"><input
+																		id="UtenteAreaRiservataPth"
+																		name="UtenteAreaRiservataPth"></input></td>
+																</tr>
+																<tr>
+																	<td valign="top"><label
+																		for="PasswordAreaRiservataPth"></label></td>
+																	<td valign="top"><input
+																		id="PasswordAreaRiservataPth"
+																		name="PasswordAreaRiservataPth"></input></td>
+																</tr>
+															</table>
+														</fieldset>
+													</details> <details class="custom-details" id="moduliDetails">
+														<summary>Elenco moduli installati</summary>
+														<fieldset style="width: 100%; box-sizing: border-box;">
+															<table style="width: 100%;">
+																<tr>
+																	<td valign="top" style="width: 100%;"><span
+																		id="ModuliInstallati" class="editgrid"
+																		style="display: block; width: 100%;"></span></td>
+																</tr>
+															</table>
+														</fieldset>
+													</details></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab2">
+							<table style="width: 100%;">
+								<tr>
+									<td style="width: 30%" valign="top">
+										<table>
+											<tr>
+												<td>
+													<fieldset>
+														<legend>Server</legend>
+														<table>
+															<tr>
+																<td valign="top"><label for="IndirizzoServer"></label></td>
+																<td valign="top"><input id="IndirizzoServer"
+																	name="IndirizzoServer"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="UsernameServer"></label></td>
+																<td valign="top"><input id="UsernameServer"
+																	name="UsernameServer"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="PasswordServer"></label></td>
+																<td valign="top"><input id="PasswordServer"
+																	name="PasswordServer"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="NoteServer"></label></td>
+																<td valign="top"><textarea id="NoteServer"
+																		name="NoteServer" cols="60" rows="5"></textarea></td>
+															</tr>
+
+														</table>
+													</fieldset>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<fieldset>
+														<legend>Server stampa AS400</legend>
+														<table>
+															<tr>
+																<td valign="top"><label
+																	for="IndirizzoSvrStampaAS400"></label></td>
+																<td valign="top"><input
+																	id="IndirizzoSvrStampaAS400"
+																	name="IndirizzoSvrStampaAS400"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label
+																	for="UsernameSvrStampaAS400"></label></td>
+																<td valign="top"><input id="UsernameSvrStampaAS400"
+																	name="UsernameSvrStampaAS400"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label
+																	for="PasswordSvrStampaAS400"></label></td>
+																<td valign="top"><input id="PasswordSvrStampaAS400"
+																	name="PasswordSvrStampaAS400"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="NoteSvrStampaAS400"></label></td>
+																<td valign="top"><textarea id="NoteSvrStampaAS400"
+																		name="NoteSvrStampaAS400" cols="60" rows="5"></textarea></td>
+															</tr>
+														</table>
+													</fieldset>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<fieldset>
+														<legend>PANTH01</legend>
+														<table>
+															<tr>
+																<td valign="top"><label for="UrlPanth01Interno"></label></td>
+																<td valign="top"><input id="UrlPanth01Interno"
+																	name="UrlPanth01Interno" cols="60" rows="5"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="UrlPanth01Esterno"></label></td>
+																<td valign="top"><input id="UrlPanth01Esterno"
+																	name="UrlPanth01Esterno" cols="60" rows="5"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="PasswordAdmin01"></label></td>
+																<td valign="top"><input id="PasswordAdmin01"
+																	name="PasswordAdmin01"></input></td>
+															</tr>
+														</table>
+													</fieldset>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<fieldset>
+														<legend>PANTH02</legend>
+														<table>
+															<tr>
+																<td valign="top"><label for="UrlPanth02Interno"></label></td>
+																<td valign="top"><input id="UrlPanth02Interno"
+																	name="UrlPanth02Interno" cols="60" rows="5"></input></td>
+															</tr>
+
+															<tr>
+																<td valign="top"><label for="UrlPanth02Esterno"></label></td>
+																<td valign="top"><input id="UrlPanth02Esterno"
+																	name="UrlPanth02Esterno" cols="60" rows="5"></input></td>
+															</tr>
+															<tr>
+																<td valign="top"><label for="PasswordAdmin02"></label></td>
+																<td valign="top"><input id="PasswordAdmin02"
+																	name="PasswordAdmin02"></input></td>
+															</tr>
+														</table>
+													</fieldset>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td style="width: 70%" valign="top">
+										<table style="width: 100%;">
+											<tr>
+												<td valign="top">
+													<details class="custom-details">
+															<summary>HTTPS</summary>
+															<fieldset>
+																<table>
+																	<tr>
+																		<td valign="top"><input type="checkbox"
+																			id="HttpsAttivo" name="HttpsAttivo" /></td>
+																		<td valign="top"><select name="HttpsInternoEsterno"
+																			id="HttpsInternoEsterno"></select></td>
+																	</tr>
+																	<tr>
+																		<td valign="top"><label for="NoteHttps"></label></td>
+																		<td valign="top"><textarea id="NoteHttps"
+																				name="NoteHttps" cols="60" rows="5"></textarea></td>
+																	</tr>
+																</table>
+															</fieldset>
+													</details>
+												</td>
+											</tr>
+											<!-- 72447 inizio -->
+											<tr>
+												<td valign="top">
+													<details class="custom-details wifi-fixed">
+															<summary>WI-FI</summary>
+															<fieldset>
+																<table>
+																	<tr>
+																		<td valign="top">
+																		<span id="WifiCliente" class="editgrid"></span>
+																		</td>
+																	</tr>
+																</table>
+															</fieldset>
+													</details>
+												</td>
+											</tr>
+											<tr>
+												<td valign="top">
+													<details class="custom-details wifi-fixed">
+															<summary>SERVER AGGIUNTIVI</summary>
+															<fieldset>
+																<table>
+																	<tr>
+																		<td valign="top">
+																		<span id="ServerAggiuntivi" class="editgrid"></span>
+																		</td>
+																	</tr>
+																</table>
+															</fieldset>
+													</details>
+												</td>
+											</tr>
+											<!-- 72447 fine -->
+										</table>
+									</td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab4">
+
+							<table>
+								<!-- 72424 inizio -->
+								<tr>
+									<td valign="top"><label for="DataScadenzaCertificati"></label></td>
+									<td valign="top"><input id="DataScadenzaCertificati"
+										name="DataScadenzaCertificati"></input></td>
+								</tr>
+								<tr>
+									<td valign="top"><label for="EndpointTrasmissione"></label></td>
+									<td valign="top"><input id="EndpointTrasmissione"
+										name="EndpointTrasmissione"></input></td>
+								</tr>
+								<tr>
+									<td valign="top"><label for="EndpointRicezione"></label></td>
+									<td valign="top"><input id="EndpointRicezione"
+										name="EndpointRicezione"></input></td>
+								</tr>
+								<tr>
+									<td valign="top"><label for="TipoConservazSostitutiva"></label>
+									</td>
+									<td valign="top"><select name="TipoConservazSostitutiva"
+										id="TipoConservazSostitutiva"></select></td>
+								</tr>
+								<!-- 72424 fine -->
+								<tr>
+									<td valign="top"><label for="NoteContabilita"></label></td>
+									<td valign="top"><textarea id="NoteContabilita"
+											name="NoteContabilita" cols="60" rows="5"></textarea></td>
+								</tr>
+							</table>
+							<table style="width: 100%;">
+								<tr>
+									<td>
+										<fieldset>
+											<legend>MONITOR FATTURAZIONE ELETTRONICA</legend>
+											<table>
+												<tr>
+													<td valign="top"><label for="UtenteMonitorFttElett"></label></td>
+													<td valign="top"><input id="UtenteMonitorFttElett"
+														name="UtenteMonitorFttElett"></input></td>
+												</tr>
+												<tr>
+													<td valign="top"><label for="PasswordMonitorFttElett"></label></td>
+													<td valign="top"><input id="PasswordMonitorFttElett"
+														name="PasswordMonitorFttElett"></input></td>
+												</tr>
+											</table>
+										</fieldset>
+									</td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab5">
+							<table style="width: 100%;">
+								<tr>
+									<!-- COLONNA SINISTRA -->
+									<td style="width: 30%;" valign="top">
+										<table style="width: 100%;">
+											<tr>
+												<td valign="top"><label for="AmbienteSviluppo"></label></td>
+												<td valign="top"><select name="AmbienteSviluppo"
+													id="AmbienteSviluppo"></select></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ManagerProject"></label></td>
+												<td valign="top"><select name="ManagerProject"
+													id="ManagerProject"></select></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="NoteServerSvil"></label></td>
+												<td valign="top"><textarea id="NoteServerSvil"
+														name="NoteServerSvil" cols="60" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="GitProject"></label></td>
+												<td valign="top"><input id="GitProject"
+													name="GitProject" /></td>
+											</tr>
+											<tr>
+												<td valign="top"><label for="ProjectNote"></label></td>
+												<td valign="top"><textarea id="ProjectNote"
+														name="ProjectNote" cols="60" rows="5"></textarea></td>
+											</tr>
+										</table>
+									</td>
+
+									<!-- COLONNA DESTRA -->
+									<td valign="top"><details class="custom-details">
+											<summary>Fix Add-On</summary>
+											<fieldset>
+												<span id="FixAddOn" class="editgrid"></span>
+											</fieldset>
+										</details> <details class="custom-details"
+											style="width: 100% !important;">
+											<summary>Fix personalizzate</summary>
+											<fieldset style="width: 100%; height: 100%;">
+												<iframe id="elencoFix" style="width: 99%; height: 50vh;"></iframe>
+											</fieldset>
+										</details></td>
+								</tr>
+								<tr>
+									<td valign="top"><input type="checkbox" id="Kasko" name="Kasko"/></td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab3">
+							<table style="width: 100%;">
+								<tr>
+									<td><span id="VPNCliente" class="editgrid"></span></td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab6">
+							<table style="width: 100%;">
+								<tr>
+									<td><span id="InterventiSpot" class="editgrid"></span></td>
+								</tr>
+							</table>
+					</span> <span class="tab" id="tab7">
+							<table style="width: 100%;">
+								<tr>
+									<td><span id="DocumentazioneCliente" class="editgrid"></span>
+									</td>
+								</tr>
+							</table>
+					</span>
+				</span></td>
+			</tr>
+			<tr>
+				<td style="height: 0"><span class="errorlist" /></td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+</html>

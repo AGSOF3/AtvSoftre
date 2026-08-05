@@ -1,0 +1,190 @@
+<tfml>
+  <generator type="form"/>
+  <form classHdr="ClienteSoftre"
+    name="ClienteSoftreForm"
+    locktype="nolock"
+    errorList="yes" menubar="yes" toolbar="yes" submitReset="none"
+    jsLibraryName="it/softre/thip/base/cliente/ClienteSoftre.js"
+    onLoadPresent="yes"
+    webFormModifierClass="it.softre.thip.base.cliente.web.ClienteSoftreFormModifier"
+    servlet="it.softre.thip.base.cliente.web.ClienteSoftreFormActionAdapter"
+    header="com.thera.thermfw.common.Header.jsp"
+    footer="com.thera.thermfw.common.Footer.jsp">
+    <menubar  name="myMenuBar">
+      <import file="it/thera/thip/cs/defObjMenu.tfml"/>
+    </menubar>
+    <toolbar name="myToolBar" imgwidth="16" imgheight="16">
+      <import file="it/thera/thip/cs/defObjMenu.tfml"/>
+    </toolbar>
+    <textinput name="IdAzienda" classAD="IdAzienda"/>
+    <tabbed name="mytabbed" height="100%" width="100%">
+      <tab name="tab1" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab1">
+        <multisearchform name="AnagraficoDiBase" classRD="AnagraficoDiBase"/>
+        
+        <textinput name="PthVrm01" classAD="PthVrm01"/>
+        <textinput name="PthVrm02" classAD="PthVrm02"/>
+        <textinput name="JvmApplication01" classAD="JvmApplication01"/>
+        <textinput name="JvmApplication02" classAD="JvmApplication02"/>
+        <textinput name="JvmBatch01" classAD="JvmBatch01"/>
+        <textinput name="JvmBatch02" classAD="JvmBatch02"/>
+        <textinput name="SirioVrm01" classAD="SirioVrm01"/>
+        <textinput name="SirioVrm02" classAD="SirioVrm02"/>
+        <textinput name="CrystalVrm01" classAD="CrystalVrm01"/>
+        <textinput name="CrystalVrm02" classAD="CrystalVrm02"/>
+        <combobox name="AmbienteSviluppo" classAD="AmbienteSviluppo"/>
+        <textinput name="PasswordAdmin01" classAD="PasswordAdmin01"/>
+        <textinput name="PasswordAdmin02" classAD="PasswordAdmin02"/>
+        
+        <textinput name="NginxActive01" classAD="NginxActive01"/>
+        <textinput name="NginxActive02" classAD="NginxActive02"/>
+        
+        <textinput name="ApplicationSvrv01" classAD="ApplicationSvrv01"/>
+        <textinput name="ApplicationSvrv02" classAD="ApplicationSvrv02"/>
+        <textinput name="ApplicationSrvVer01" classAD="ApplicationSrvVer01"/>
+        <textinput name="ApplicationSrvVer02" classAD="ApplicationSrvVer02"/>
+        
+        <textinput name="DbVendor01" classAD="DbVendor01"/>
+        <textinput name="DbVendor02" classAD="DbVendor02"/>
+        <textinput name="DbVrmVendor01" classAD="DbVrmVendor01"/>
+        <textinput name="DbVrmVendor02" classAD="DbVrmVendor02"/>
+        <textinput name="DbDriver01" classAD="DbDriver01"/>
+        <textinput name="DbDriver02" classAD="DbDriver02"/>
+        <textinput name="DbVrmDriver01" classAD="DbVrmDriver01"/>
+        <textinput name="DbVrmDriver02" classAD="DbVrmDriver02"/>
+        
+        <textinput name="OsName" classAD="OsName"/>
+        <textinput name="OsVersion" classAD="OsVersion"/>
+        <textinput name="OsArchitecture" classAD="OsArchitecture"/>
+        <subform classCD="DatiComuniEstesi" name="T3"/>
+        
+        <combobox name="ProdottoPrincipale" classAD="ProdottoPrincipale"/>
+        <combobox name="ProdottoPrincipaleCont" classAD="ProdottoPrincipaleCont"/>
+        <multisearchform name="ReferenteGestionale" classRD="ReferenteGestionale" displaytype="id"/>
+        <multisearchform name="ReferenteContabile" classRD="ReferenteContabile" displaytype="id"/>
+        <multisearchform name="ReferenteCommercialeSmeup" classRD="ReferenteCommercialeSmeup" displaytype="id"/>
+        <multisearchform name="ReferenteSisthCommerciale" classRD="ReferenteSisthCommerciale" displaytype="id"/>
+        <combobox name="ProprietaCliente" classAD="ProprietaCliente"/>
+        <textarea name="DatiExtraCliente" classAD="DatiExtraCliente"/>
+        
+        
+		<textarea name="LinkPantheraExt" classAD="LinkPantheraExt"/>
+        <textarea name="NoteCliente" classAD="NoteCliente"/>
+        <textinput name="TimestampAggRemoto" classAD="TimestampAggRemoto"/>
+        <checkbox name="AggiornatoRemoto" classAD="AggiornatoRemoto"/>
+        <checkbox name="IntegrazioneArchismall" classAD="IntegrazioneArchismall"/>
+        <textinput name="NumeroUtenti" classAD="NumeroUtenti"/>
+        <textinput name="IndirizzoSvrStampaAS400" classAD="IndirizzoSvrStampaAS400"/>
+        <textinput name="UsernameSvrStampaAS400" classAD="UsernameSvrStampaAS400"/>
+        <textinput name="PasswordSvrStampaAS400" classAD="PasswordSvrStampaAS400"/>
+        <textarea name="NoteSvrStampaAS400" classAD="NoteSvrStampaAS400"/>
+        <multisearchform name="CapoProgettoCliente" classRD="CapoProgettoCliente" displaytype="id"/>
+        <textinput name="UtenteAreaRiservataPth" classAD="UtenteAreaRiservataPth"/>
+        <textinput name="PasswordAreaRiservataPth" classAD="PasswordAreaRiservataPth"/>
+        <textinput name="UtenteMonitorFttElett" classAD="UtenteMonitorFttElett"/>
+        <textinput name="PasswordMonitorFttElett" classAD="PasswordMonitorFttElett"/>
+        <textinput name="IdAnagrafico" classAD="IdAnagrafico"/>
+        <editgrid name="ModuliInstallati" classCD="ModuliInstallati" type="edit" visiblerows="5">
+          <column classAD="IdRiga"/>
+          <column classAD="IdAnagrafico" hidden="yes"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="DescrizioneModulo"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </editgrid>
+        <checkbox name="SQLServerExpress01" classAD="SQLServerExpress01"/>
+        <checkbox name="SQLServerExpress02" classAD="SQLServerExpress02"/>
+      </tab>
+      
+      <tab name="tab2" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab2">
+        <textinput name="IndirizzoServer" classAD="IndirizzoServer"/>
+        <textinput name="UsernameServer" classAD="UsernameServer"/>
+        <textinput name="PasswordServer" classAD="PasswordServer"/>
+        <textarea name="NoteServer" classAD="NoteServer"/>
+        <textinput name="UrlPanth01Interno" classAD="UrlPanth01Interno"/>
+        <textinput name="UrlPanth02Interno" classAD="UrlPanth02Interno"/>
+        <textinput name="UrlPanth01Esterno" classAD="UrlPanth01Esterno"/>
+        <textinput name="UrlPanth02Esterno" classAD="UrlPanth02Esterno"/>
+        <checkbox classAD="HttpsAttivo" name="HttpsAttivo"/>
+        <combobox name="HttpsInternoEsterno" classAD="HttpsInternoEsterno"/>
+        <textarea name="NoteHttps" classAD="NoteHttps"/>
+        <editgrid name="WifiCliente" classCD="WifiCliente" menu="bottom" type="independent">
+          <column classAD="IdProgressivo"/>
+          <column classAD="IdAnagrafico" hidden="yes"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="NomeRete"/>
+          <column classAD="Password"/>
+          <column classAD="Note"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </editgrid>
+        <editgrid name="ServerAggiuntivi" classCD="ServerAggiuntivi" menu="bottom" type="independent">
+          <column classAD="IdProgressivo"/>
+          <column classAD="IdAnagrafico" hidden="yes"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="IndirizzoServer"/>
+          <column classAD="UsernameServer"/>
+          <column classAD="PasswordServer"/>
+          <column classAD="NoteServer"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </editgrid>
+      </tab>
+      
+      <tab name="tab3" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab3">
+        <editgrid name="VPNCliente" classCD="VPNCliente" menu="bottom" type="include">
+         <column classAD="IdProgressivo"/>
+          <column classAD="TipoVpn"/>
+          <column classAD="Indirizzo"/>
+          <column classAD="Porta"/>
+          <column classAD="Username"/>
+          <column classAD="Password"/>
+          <column classAD="NoteVpn"/>
+          <column classAD="PreSharedKey"/>
+        </editgrid>
+      </tab>
+      
+       <tab name="tab4" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab4">
+       	<textinput name="DataScadenzaCertificati" classAD="DataScadenzaCertificati" showCalendarBtn="yes"/>
+       	<textinput name="EndpointTrasmissione" classAD="EndpointTrasmissione"/>
+       	<textinput name="EndpointRicezione" classAD="EndpointRicezione"/>
+        <textarea name="NoteContabilita" classAD="NoteContabilita"/>
+        <combobox name="TipoConservazSostitutiva" classAD="TipoConservazSostitutiva"/>
+		</tab>      
+		
+       <tab name="tab5" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab5">
+        <combobox name="ManagerProject" classAD="ManagerProject"/>
+        <textarea name="NoteServerSvil" classAD="NoteServerSvil"/>
+        <textinput name="GitProject" classAD="GitProject"/>
+        <textarea name="ProjectNote" classAD="ProjectNote"/>
+         <editgrid name="FixAddOn" classCD="FixAddOn" type="edit" visiblerows="3">
+          <column classAD="IdFix"/>
+          <column classAD="FixAddOn.Descrizione" />
+        </editgrid>
+        <checkbox name="Kasko" classAD="Kasko"/>
+		</tab>
+		
+		<tab name="tab6" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab6">
+        <editgrid name="InterventiSpot" classCD="InterventiSpot" type="independent" visiblerows="5">
+          <column classAD="IdRiga"/>
+          <column classAD="IdAnagrafico" hidden="yes"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="Comando"/>
+          <column classAD="Descrizione"/>
+          <column classAD="Tipologia"/>
+          <column classAD="LinkDrive"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </editgrid>
+		</tab>      
+
+		<tab name="tab7" resourceFile="it.softre.thip.base.cliente.resources.ClienteSoftre" resourceID="tab7">
+        <editgrid name="DocumentazioneCliente" classCD="DocumentazioneCliente" type="independent" visiblerows="5">
+          <column classAD="IdRiga"/>
+          <column classAD="IdAnagrafico" hidden="yes"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="Titolo"/>
+          <column classAD="Descrizione"/>
+          <column classAD="LinkDrive"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </editgrid>
+		</tab> 
+    </tabbed>
+  </form>
+</tfml>
+
