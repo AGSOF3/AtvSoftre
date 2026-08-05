@@ -135,6 +135,12 @@ public abstract class AttivitaSoftrePO extends EntitaAzienda implements Business
 	public static final char FASE_DI_TEST = '7';
 	public static final char COMPLETATA = '8';
 	public static final char RIAPERTA = '9';
+	
+	// Enumerato Priorita
+	public static final char NON_SIGNIFICATIVO = '-';
+	public static final char BASSA = '1';
+	public static final char MEDIA = '2';
+	public static final char ALTA = '3';
 
 	@SuppressWarnings("rawtypes")
 	public static Vector retrieveList(String where, String orderBy, boolean optimistic)
