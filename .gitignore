@@ -15,9 +15,11 @@
 !5.0/sql/
 !5.0/websrc/
 !5.0/tddml/
+!5.0/fix/
 
 # Allow contents of selected folders
 !5.0/src/**
 !5.0/sql/**
 !5.0/websrc/**
 !5.0/tddml/**
+!5.0/fix/**
