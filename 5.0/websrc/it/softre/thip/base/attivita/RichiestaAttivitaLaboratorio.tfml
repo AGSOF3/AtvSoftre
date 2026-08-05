@@ -1,0 +1,18 @@
+<tfml>
+  <generator type="form"/>
+  <form classHdr="RichiestaAttivitaLaborato"
+    name="myForm"
+    locktype="nolock"
+    errorList="yes" menubar="yes" toolbar="yes" submitReset="none"
+    jsLibraryName="it/softre/thip/base/attivita/RichiestaAttivitaLaboratorio.js"
+    webFormModifierClass="it.softre.thip.base.attivita.web.RichiestaAttivitaLaboratorioFormModifier"
+    onLoadPresent="yes"
+    footer="com.thera.thermfw.common.Footer.jsp">
+        <textarea name="NomeAttivita" classAD="NomeAttivita"/>
+        <multisearchform name="ClienteSoftre" classRD="ClienteSoftre"/>
+        <textarea name="DescrizioneAttivita" classAD="DescrizioneAttivita"/>
+        <multisearchform name="RichiedenteSoftre" classRD="RichiedenteSoftre"/>
+        <combobox name="StatoAttivita" classAD="StatoAttivita"/>
+        <button resourceFile="it.softre.thip.base.attivita.resources.RichiestaAttivitaLaboratorio" resourceID="cnfBut" name="cnfBut" script="conferma();"></button>
+  </form>
+</tfml>
