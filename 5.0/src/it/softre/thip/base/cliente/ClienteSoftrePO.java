@@ -470,6 +470,7 @@ public abstract class ClienteSoftrePO extends EntitaAzienda implements BusinessO
 		iDocumentazioneCliente.setFatherKeyChanged(); //72395
 		iWifiCliente.setFatherKeyChanged(); //72447
 		iServerAggiuntivi.setFatherKeyChanged(); //72447
+		setIdAziendaInternal(idAzienda);
 	}
 
 	public String getIdAzienda() {
