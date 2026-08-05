@@ -3,6 +3,21 @@ var fetchInterval;
 var fetching = false;
 
 $(document).ready(function() {
+	
+	const textarea = document.getElementById("message-input");
+
+	textarea.addEventListener("input", autoGrow);
+	
+	function autoGrow() {
+	    this.style.height = "42px";
+	    this.style.height = Math.min(this.scrollHeight, 120) + "px";
+	
+	    if (this.scrollHeight > 120) {
+	        this.style.overflowY = "auto";
+	    } else {
+	        this.style.overflowY = "hidden";
+	    }
+	}
 
 	formData = new FormData();
 
@@ -11,7 +26,7 @@ $(document).ready(function() {
 	$('#message-input').on('keydown', function(e) {
 		if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
 			e.preventDefault();
-			let message = $('#message-input').text().trim();
+			let message = $('#message-input').val().trim(); //$('#message-input').text().trim();
 			const file = formData.get('file');
 			if (message != "" || file != null) {
 				sendMessage(idAttivita, message, file);
@@ -61,7 +76,7 @@ $(document).ready(function() {
 
 	$('#send-message-icon').on('click', function() {
 		const file = formData.get('file');
-		let message = $('#message-input').text().trim();
+		let message = $('#message-input').val().trim();//$('#message-input').text().trim();
 		if (message != "" || file != null) {
 			sendMessage(idAttivita, message, file);
 		}
@@ -85,7 +100,7 @@ $(document).ready(function() {
 	});
 
 	startFetchInterval();
-	document.getElementById('message-input').addEventListener('paste', handlePaste);
+	document.getElementById("message-input").addEventListener("paste", handlePaste);
 });
 
 function startFetchInterval() {
@@ -117,23 +132,36 @@ function isAtBottom() {
 }
 
 function displayImagePreview(event) {
-	const imageContainer = document.createElement('div');
-	imageContainer.style.position = 'relative';
 
-	const img = document.createElement('img');
-	img.src = event.target.result;
-	img.style.maxWidth = '100%';
+    const previewContainer =
+        document.getElementById("attachment-preview-container");
 
-	const cross = document.createElement('span');
-	cross.className = 'cross-button';
+    // only one image supported
+    previewContainer.innerHTML = "";
 
-	cross.addEventListener('click', function() {
-		imageContainer.remove();
-	});
+    const imageContainer = document.createElement("div");
+    imageContainer.className = "image-preview";
 
-	imageContainer.appendChild(img);
-	imageContainer.appendChild(cross);
-	document.getElementById('message-input').appendChild(imageContainer);
+    const img = document.createElement("img");
+    img.src = event.target.result;
+
+    const cross = document.createElement("span");
+    cross.className = "cross-button";
+    cross.innerHTML = "&times;";
+
+    cross.onclick = function () {
+
+        previewContainer.innerHTML = "";
+
+        formData.delete("file");
+
+    };
+
+    imageContainer.appendChild(img);
+    imageContainer.appendChild(cross);
+
+    previewContainer.appendChild(imageContainer);
+
 }
 
 function displayFileStatus(fileName) {
@@ -162,20 +190,37 @@ function displayFileStatus(fileName) {
 }
 
 function handlePaste(event) {
-	const clipboardItems = event.clipboardData.items;
-	for (let i = 0; i < clipboardItems.length; i++) {
-		const item = clipboardItems[i];
-		if (item.type.startsWith('image/')) {
-			event.preventDefault();
-			const blob = item.getAsFile();
-			formData.append('file', blob);
+
+    const items = event.clipboardData.items;
+
+    for (let i = 0; i < items.length; i++) {
+
+        const item = items[i];
+
+        if (item.kind === "file" && item.type.startsWith("image/")) {
+
+            event.preventDefault();
+
+            const file = item.getAsFile();
+
+			formData.delete("file");
+			formData.append("file", file);
+			
 			const reader = new FileReader();
-			reader.onload = function(event) {
-				displayImagePreview(event);
+			
+			reader.onload = function(e){
+			
+			    displayImagePreview(e);
+			
 			};
-			reader.readAsDataURL(blob);
-		}
-	}
+			
+			reader.readAsDataURL(file);
+			
+			event.preventDefault();
+			
+			return;
+        }
+    }
 }
 
 function sendMessage(idAttivita) {
@@ -187,7 +232,8 @@ function sendMessage(idAttivita) {
 
 	const data = new FormData();
 	data.append('IdAttivita', idAttivita);
-	data.append('Message', $('#message-input').text());
+//	data.append('Message', $('#message-input').text());
+	data.append('Message', $('#message-input').val());
 	if (file) {
 		data.append('file', file);
 	}
@@ -202,8 +248,14 @@ function sendMessage(idAttivita) {
 		if (!response.ok) {
 			throw new Error('Network response was not ok ' + response.statusText);
 		} else {
-			$('#message-input').html('');
+			const textarea = document.getElementById("message-input");			
+			textarea.value = "";
+			textarea.style.height = "42px";
+			textarea.style.overflowY = "hidden";
 			formData.delete('file');
+			document.getElementById(
+			    "attachment-preview-container"
+			).innerHTML = "";
 			if (document.getElementById('file-status') != undefined && document.getElementById('file-status') != null) {
 				document.getElementById('file-status').innerHTML = '';
 			}

@@ -32,21 +32,39 @@ out.print(WebJSTypeList.getImportForJSLibrary("it/softre/thip/base/attivita/js/c
         <div id="chat-container"></div>
 
         <div id="footer-container">
-            <div class="user-image-container">
-                <img class="chat-user-img" src="<%=image%>" alt="avatar">
-            </div>
-            <div class="upload-file-message">
-                <i id="file-upload-icon" class="fa fa-solid fa-plus fa-4x" aria-hidden="true"></i>
-            </div>
-            <div id="file-status-container"></div>
-            <div class="input-container">
-                <div id="message-input" class="message-input-contenteditable" contenteditable="true"></div>
-            </div>
-            <div class="btn-send-message" id="send-message-icon">
-                <i class="fa fa-paper-plane fa-3x" aria-hidden="true"></i>
-            </div>
-            <input type="file" id="file-input" style="display: none;">
-        </div>
+
+		    <div id="attachment-preview-container"></div>
+		
+		    <div id="file-status-container"></div>
+		    
+		    <div id="attachment-preview-container"></div>
+		
+		    <div class="footer-row">
+		
+		        <div class="user-image-container">
+		            <img class="chat-user-img" src="<%=image%>" alt="avatar">
+		        </div>
+		
+		        <div class="upload-file-message">
+		            <i id="file-upload-icon" class="fa fa-plus"></i>
+		        </div>
+		
+		        <div class="input-container">
+		            <textarea
+		                id="message-input"
+		                rows="1"
+		                placeholder="Type a message..."></textarea>
+		        </div>
+		
+		        <div class="btn-send-message" id="send-message-icon">
+		            <i class="fa fa-paper-plane"></i>
+		        </div>
+		
+		    </div>
+		
+		    <input type="file" id="file-input" style="display:none;">
+		
+		</div>
     </div>
 
     <script>
