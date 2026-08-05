@@ -473,36 +473,63 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 
 	public Session sessionForSendMail() {
 		if(session == null) {
+			//			try {
+			//				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
+			//				Properties props = new Properties();  
+			//				props.put("mail.smtp.host", conf.getSMTPServer());
+			//				props.put("mail.from", "info@softre.it");
+			//				props.put("mail.smtp.port", 25);
+			//
+			//				MailSSLSocketFactory trustAllSocketFactory = null;
+			//				try {
+			//					trustAllSocketFactory = new MailSSLSocketFactory();
+			//					trustAllSocketFactory.setTrustAllHosts(true);		
+			//				}
+			//				catch (Exception e) {
+			//					e.printStackTrace(Trace.excStream);
+			//				}
+			//				Authenticator auth = null;
+			//				if (conf.getSMTPAccount() != null && conf.getSMTPPassword() != null && conf.getSMTPPassword().length() != 0 && conf.getSMTPPassword().length() != 0){//Fix 30398 
+			//					auth = new javax.mail.Authenticator() {protected PasswordAuthentication getPasswordAuthentication() {
+			//						return new PasswordAuthentication(conf.getSMTPAccount(),conf.getSMTPPassword());}};
+			//				}
+			//				if (auth != null) { 
+			//					props.put("mail.smtp.auth", "true");
+			//					session = Session.getInstance(props, auth);
+			//				} else {
+			//					props.put("mail.smtp.auth", "false");
+			//					session = Session.getInstance(props, null); 
+			//				};
+			//			}catch (SQLException e) {
+			//				e.printStackTrace(Trace.excStream);
+			//			}
+			//XXX DA ABILITARE SOPRA
 			try {
-				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
+//				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
 				Properties props = new Properties();  
-				props.put("mail.smtp.host", conf.getSMTPServer());
-				props.put("mail.from", "info@softre.it");
-				props.put("mail.smtp.port", 25);
-
 				MailSSLSocketFactory trustAllSocketFactory = null;
-				try {
-					trustAllSocketFactory = new MailSSLSocketFactory();
-					trustAllSocketFactory.setTrustAllHosts(true);		
-				}
-				catch (Exception e) {
-					e.printStackTrace(Trace.excStream);
-				}
-				Authenticator auth = null;
-				if (conf.getSMTPAccount() != null && conf.getSMTPPassword() != null && conf.getSMTPPassword().length() != 0 && conf.getSMTPPassword().length() != 0){//Fix 30398 
-					auth = new javax.mail.Authenticator() {protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(conf.getSMTPAccount(),conf.getSMTPPassword());}};
-				}
-				if (auth != null) { 
-					props.put("mail.smtp.auth", "true");
-					session = Session.getInstance(props, auth);
-				} else {
-					props.put("mail.smtp.auth", "false");
-					session = Session.getInstance(props, null); 
-				};
-			}catch (SQLException e) {
+				trustAllSocketFactory = new MailSSLSocketFactory();
+				trustAllSocketFactory.setTrustAllHosts(true);
+				
+				props.put("mail.smtp.host", "smtp.ethereal.email");
+				props.put("mail.smtp.port", "587");
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.starttls.enable", "true");
+				props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+				session = Session.getInstance(props,
+				    new Authenticator() {
+				        protected PasswordAuthentication getPasswordAuthentication() {
+				            return new PasswordAuthentication(
+				                "rahul.beatty@ethereal.email",
+				                "MffDyqZ3bmZvhbeCrF");
+				        }
+				    });
+				
+			}catch (Exception e) {
 				e.printStackTrace(Trace.excStream);
 			}
+
 		}
 		return session;
 	}
