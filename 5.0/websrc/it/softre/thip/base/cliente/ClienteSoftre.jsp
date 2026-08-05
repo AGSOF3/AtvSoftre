@@ -347,6 +347,19 @@ fieldset {
 %>
 <!--<span class="multisearchform" id="ReferenteCommercialeSmeup"></span>--></td>
 											</tr>
+											<tr>
+												<td valign="top"><%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "ClienteSoftre", "RefPersonalizzazioni", null); 
+   label.setParent(ClienteSoftreForm); 
+%><label class="<%=label.getClassType()%>" for="RefPersonalizzazioni"><%label.write(out);%></label><%}%>
+												</td>
+												<td valign="top"><% 
+  WebMultiSearchForm ClienteSoftreRefPersonalizzazioni =  
+     new com.thera.thermfw.web.WebMultiSearchForm("ClienteSoftre", "RefPersonalizzazioni", false, false, true, 1, null, null); 
+  ClienteSoftreRefPersonalizzazioni.setParent(ClienteSoftreForm); 
+  ClienteSoftreRefPersonalizzazioni.write(out); 
+%>
+<!--<span class="multisearchform" id="RefPersonalizzazioni"></span>--></td>
+											</tr>
 											<tr style="display: none">
 												<td valign="top"><%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "ClienteSoftre", "RefCommercialeSisth", null); 
    label.setParent(ClienteSoftreForm); 

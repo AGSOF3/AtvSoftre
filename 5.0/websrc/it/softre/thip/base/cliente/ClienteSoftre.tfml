@@ -63,6 +63,7 @@
         <multisearchform name="ReferenteContabile" classRD="ReferenteContabile" displaytype="id"/>
         <multisearchform name="ReferenteCommercialeSmeup" classRD="ReferenteCommercialeSmeup" displaytype="id"/>
         <multisearchform name="ReferenteSisthCommerciale" classRD="ReferenteSisthCommerciale" displaytype="id"/>
+        <multisearchform name="RefPersonalizzazioni" classRD="RefPersonalizzazioni" />
         <combobox name="ProprietaCliente" classAD="ProprietaCliente"/>
         <textarea name="DatiExtraCliente" classAD="DatiExtraCliente"/>
         

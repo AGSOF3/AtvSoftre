@@ -1324,12 +1324,12 @@ public abstract class ClienteSoftrePO extends EntitaAzienda implements BusinessO
 	}
 	//72521 fine>
 	
-	public void setRefPersonalizzazioni(Dipendente refPersonalizzazioni) {
+	public void setReferentePersonalizzazioni(Dipendente refPersonalizzazioni) {
 		this.iRefPersonalizzazioni.setObject(refPersonalizzazioni);
 		setDirty();
 	}
 
-	public Dipendente getRefPersonalizzazioni() {
+	public Dipendente getReferentePersonalizzazioni() {
 		return (Dipendente) iRefPersonalizzazioni.getObject();
 	}
 
@@ -1342,13 +1342,13 @@ public abstract class ClienteSoftrePO extends EntitaAzienda implements BusinessO
 		return iRefPersonalizzazioni.getKey();
 	}
 
-	public void setIdIncaricato(String idIncaricato) {
+	public void setRefPersonalizzazioni(String idIncaricato) {
 		String key = iRefPersonalizzazioni.getKey();
 		iRefPersonalizzazioni.setKey(KeyHelper.replaceTokenObjectKey(key , 2, idIncaricato));
 		setDirty();
 	}
 
-	public String getIdIncaricato() {
+	public String getRefPersonalizzazioni() {
 		//String key = iIncaricato.getKey();
 		//return key;
 		String key = iRefPersonalizzazioni.getKey();
@@ -1428,6 +1428,8 @@ public abstract class ClienteSoftrePO extends EntitaAzienda implements BusinessO
 		iReferentecommercialesmeup.setKey(KeyHelper.replaceTokenObjectKey(key4, 1, idAzienda));
 		String key5 = iReferentesisthcommerciale.getKey();
 		iReferentesisthcommerciale.setKey(KeyHelper.replaceTokenObjectKey(key5, 1, idAzienda));
+		String key6 = iRefPersonalizzazioni.getKey();
+		iRefPersonalizzazioni.setKey(KeyHelper.replaceTokenObjectKey(key6, 1, idAzienda));
 	}
 
 }
