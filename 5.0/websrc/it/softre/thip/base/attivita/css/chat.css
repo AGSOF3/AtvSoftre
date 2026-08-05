@@ -1,0 +1,390 @@
+/* =========================
+   CHAT.CSS - Modernized UI
+   ========================= */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.fa,
+.fa::before,
+.fa::after {
+    font-family: "FontAwesome" !important;
+}
+
+#chat-page {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    overflow: hidden;
+}
+
+/* =========================
+   CHAT AREA
+   ========================= */
+
+#chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: #f8fafc;
+}
+
+#chatBody .message-row:first-child {
+    margin-top: .5rem !important;
+}
+
+.message-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.message-row-other { justify-content: flex-start; }
+.message-row-me { justify-content: flex-end; }
+
+.message-avatar img,
+.chat-user-img {
+    width:40px;
+    height:40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message-bubble {
+    max-width:70%;
+    width:fit-content;
+    padding: 10px 14px;
+    border-radius: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    word-break: break-word;
+}
+
+.message-row-other .message-bubble {
+    background: #e5e7eb;
+    border-bottom-left-radius: 5px;
+}
+
+.message-row-me .message-bubble {
+    background: #eef4ff;
+    border-bottom-right-radius: 5px;
+}
+
+.message-meta {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.message-author {
+    font-weight: 600;
+    font-size: .8rem;
+}
+
+.message-time {
+    font-size: .7rem;
+    color: #6b7280;
+}
+
+.message-text {
+    white-space: pre-wrap;
+}
+
+/* =========================
+   ATTACHMENTS
+   ========================= */
+
+.message-attachments {
+    margin-top: 8px;
+}
+
+.attachment-image {
+    max-width: 220px;
+    border-radius: 12px;
+    display: block;
+    cursor: pointer;
+}
+
+.file-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: rgba(255,255,255,.5);
+}
+
+.file-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================
+   MESSAGE ACTIONS
+   ========================= */
+
+.comandi-start,
+.comandi-end {
+    display: flex;
+    gap: 6px;
+    margin-top: 5px;
+    opacity: 0;
+    transition: opacity .15s;
+}
+
+.message-row:hover .comandi-start,
+.message-row:hover .comandi-end {
+    opacity: 1;
+}
+
+.message-row-me .comandi-end {
+    justify-content: flex-end;
+}
+
+.comandi-start i,
+.comandi-end i {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.fa-trash { color: #ef4444; }
+.fa-download { color: #2563eb; }
+
+.comandi-start i:hover,
+.comandi-end i:hover {
+    background: rgba(0,0,0,.08);
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+#footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-image-container {
+    flex-shrink: 0;
+}
+
+.upload-file-message,
+.btn-send-message {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.upload-file-message {
+    color: #6b7280;
+}
+
+.upload-file-message i,
+.btn-send-message i{
+    font-size:18px;
+}
+
+.upload-file-message:hover {
+    background: #f3f4f6;
+}
+
+.btn-send-message {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-send-message:hover {
+    background: #1d4ed8;
+}
+
+.input-container {
+    flex: 1;
+}
+
+#message-input {
+    width: 100%;
+    min-height: 42px;
+    height: 42px;
+    max-height: 120px;
+
+    resize: none;
+    overflow-y: hidden;
+
+    padding: 10px 14px;
+
+    box-sizing: border-box;
+    line-height: 20px;
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+/* =========================
+   ATTACHMENT PREVIEW
+   ========================= */
+
+#attachment-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-preview {
+    position: relative;
+}
+
+.image-preview img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+}
+
+.cross-button {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* =========================
+   FILE STATUS
+   ========================= */
+
+#file-status-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.file-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    font-size: .75rem;
+}
+
+.remove-button {
+    border: none;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    cursor: pointer;
+}
+
+/* =========================
+   IMAGE MODAL
+   ========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-image {
+    max-width: 100%;
+    max-height: 80vh;
+}
+
+#attachment-preview-container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:4px;
+}
+
+.image-preview{
+    position:relative;
+}
+
+.image-preview img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+
+    border-radius:12px;
+    border:1px solid #d1d5db;
+}
+
+.cross-button{
+
+    position:absolute;
+
+    top:-6px;
+    right:-6px;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:14px;
+}
