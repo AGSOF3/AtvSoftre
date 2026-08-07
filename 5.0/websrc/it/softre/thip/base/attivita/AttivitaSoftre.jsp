@@ -31,7 +31,7 @@
   List errors = new ArrayList(); 
   WebJSTypeList jsList = new WebJSTypeList(); 
   WebForm AttivitaSoftreForm =  
-     new com.thera.thermfw.web.WebForm(request, response, "AttivitaSoftreForm", "AttivitaSoftre", null, "com.thera.thermfw.web.servlet.FormActionAdapter", false, false, true, true, true, true, null, 0, true, "it/softre/thip/base/attivita/AttivitaSoftre.js"); 
+     new com.thera.thermfw.web.WebForm(request, response, "AttivitaSoftreForm", "AttivitaSoftre", null, "it.softre.thip.base.attivita.web.AttivitaSoftreFormActionAdapter", false, false, true, true, true, true, null, 0, true, "it/softre/thip/base/attivita/AttivitaSoftre.js"); 
   AttivitaSoftreForm.setServletEnvironment(se); 
   AttivitaSoftreForm.setJSTypeList(jsList); 
   AttivitaSoftreForm.setHeader(null); 
@@ -441,6 +441,17 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
 %> 
 </select></td>
 											</tr>
+																				<tr style="display: none;">
+																					<td valign="top"><% 
+  WebCheckBox AttivitaSoftreInvioRiepilogoRichiedente =  
+     new com.thera.thermfw.web.WebCheckBox("AttivitaSoftre", "InvioRiepilogoRichiedente"); 
+		AttivitaSoftreInvioRiepilogoRichiedente.setParent(AttivitaSoftreForm); 
+%>
+<input id="<%=AttivitaSoftreInvioRiepilogoRichiedente.getId()%>" name="<%=AttivitaSoftreInvioRiepilogoRichiedente.getName()%>" type="checkbox" value="Y"><%
+AttivitaSoftreInvioRiepilogoRichiedente.write(out); 
+%>
+</td>
+																				</tr>
 											<tr>
 												<td colspan="2"><jsp:include flush="true" page="/it/softre/thip/base/attivita/Collaboratori.jsp"></jsp:include></td>
 											</tr>

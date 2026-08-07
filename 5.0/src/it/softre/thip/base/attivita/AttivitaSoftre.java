@@ -7,12 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -29,6 +32,7 @@ import com.thera.thermfw.ad.ClassADCollection;
 import com.thera.thermfw.ad.ClassADCollectionManager;
 import com.thera.thermfw.base.TimeUtils;
 import com.thera.thermfw.base.Trace;
+import com.thera.thermfw.common.BaseComponentsCollection;
 import com.thera.thermfw.common.ErrorMessage;
 import com.thera.thermfw.persist.CachedStatement;
 import com.thera.thermfw.persist.ConnectionManager;
@@ -39,6 +43,7 @@ import com.thera.thermfw.persist.PersistentObject;
 import com.thera.thermfw.ssd.SSDConfiguration;
 import com.thera.thermfw.type.EnumType;
 
+import it.softre.thip.base.attivita.utils.UtilsInvioMail;
 import it.thera.thip.base.azienda.Azienda;
 import it.thera.thip.base.dipendente.Dipendente;
 import it.thera.thip.base.partner.RubricaEstesa;
@@ -76,6 +81,8 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 
 	protected List<Dipendente> relatedEmployees = null;
 
+	protected boolean iInvioRiepilogoRichiedente = false;
+
 	public List<Dipendente> getRelatedEmployees() {
 		return relatedEmployees;
 	}
@@ -90,6 +97,14 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 
 	public void setOldAttivita(AttivitaSoftre oldAttivita) {
 		iOldAttivita = oldAttivita;
+	}
+
+	public boolean isInvioRiepilogoRichiedente() {
+		return iInvioRiepilogoRichiedente;
+	}
+
+	public void setInvioRiepilogoRichiedente(boolean iInvioRiepilogoRichiedente) {
+		this.iInvioRiepilogoRichiedente = iInvioRiepilogoRichiedente;
 	}
 
 	public ErrorMessage checkDelete() {
@@ -134,6 +149,18 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 		iOldAttivita =(AttivitaSoftre)Factory.createObject(AttivitaSoftre.class);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Vector checkAll(BaseComponentsCollection components) {
+		Vector errors = super.checkAll(components);
+
+		if(isInvioRiepilogoRichiedente() && getRubricaSoftre() == null) {
+			errors.add(new ErrorMessage("BAS0000078","Non e' possibile notificare l'attivita visto che non e' presente il richiedente"));
+		}
+
+		return errors;
+	}
+
 	public int save() throws SQLException {
 		boolean isOnDb = isOnDB();
 		if (!isOnDB()) {
@@ -152,6 +179,10 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 			setDataCompletamento(null);
 		}
 
+		if(isInvioRiepilogoRichiedente()) {
+			inviaRiepilogoRichiedente();
+		}
+
 		int rc = super.save();
 		if(isAssegnazioneDaNotificare(isOnDb)){
 			//allora devo notificare all'incaricato l'assegnazione della attività
@@ -161,6 +192,79 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 			clearIncaricato(this);
 		}
 		return rc;
+	}
+
+	protected void inviaRiepilogoRichiedente() {
+		if(getRubricaSoftre() != null) {
+			try {
+				Dipendente richiedente = getRubricaSoftre();
+
+				Message message = new MimeMessage(sessionForSendMail());
+
+				message.setFrom(new InternetAddress("info@softre.it"));
+
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(richiedente.getEmail2()));
+
+				message.setSubject("Riepilogo attività : "+getNomeAttivita());
+
+				Map<String, String> values = new HashMap<String, String>();
+
+				values.put("NOME_ATTIVITA", getNomeAttivita());
+				values.put("CLIENTE",getClientesoftre() != null ? getClientesoftre().getRagioneSociale() : "");
+				values.put("DESCRIZIONE", getDescrizioneAttivita() != null ? getDescrizioneAttivita().replace("\n", "<br/>") : "");
+
+				if(getQuotazioneOre() != null)
+					values.put("QUOTAZIONE_H", getQuotazioneOre().toString());
+				if(getQuotazioneGg() != null)
+					values.put("QUOTAZIONE_GG", getQuotazioneGg().toString());
+				values.put("TIPO_FATTURAZIONE", EnumType.getEnumTypeInstance("TipoFatturazione", EnumType.class).descriptionFromValue(String.valueOf(getTipoFatturazione())));
+
+				if (getDataPrevistaConsegna() != null) {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					values.put("DATA_CONS_CFM", sdf.format(getDataPrevistaConsegna()));
+				}
+
+				StringBuilder collaboratoriStr = new StringBuilder();
+				@SuppressWarnings("rawtypes")
+				Iterator iterCollaboratori = getAttivitaCollaboratori().iterator();
+				while(iterCollaboratori.hasNext()) {
+					AttivitaCollaboratore collaboratore = (AttivitaCollaboratore) iterCollaboratori.next();
+					if(!collaboratore.getIdUtente().equals(richiedente.getIdDipendente())) {
+						collaboratoriStr.append(collaboratore.getUtente().getDenominazione(collaboratore.getUtente().getNome(), collaboratore.getUtente().getCognome()));
+						if(iterCollaboratori.hasNext()) {
+							collaboratoriStr.append(", ");
+						}
+					}
+				}
+
+				values.put("COLLABORATORI", collaboratoriStr.toString());
+
+				if(getRubricaCliente() != null) {
+					values.put("RICHIEDENTE_CLIENTE", getRubricaCliente().getNomeCognome());
+				}
+
+				values.put("PRIORITA", EnumType.getEnumTypeInstance("AttivitaSoftrePriorita", EnumType.class).descriptionFromValue(String.valueOf(getPriorita())));
+				values.put("STATO", EnumType.getEnumTypeInstance("StatoAttivitaSoftre", EnumType.class).descriptionFromValue(String.valueOf(getStatoAttivita())));
+
+				values.put("COMMESSA",
+						getCommessaSmeup() != null ? getCommessaSmeup() : "");
+
+				values.put("LINK_GOOGLE_ANALISI",
+						getLinkAnalisi() != null ? getLinkAnalisi() : "");
+
+				values.put("LINK_GOOGLE_DOCUMENTAZIONE",
+						getLinkDocumentazione() != null ? getLinkDocumentazione() : "");
+
+				String htmlContent = UtilsInvioMail.renderTemplate("riepilogo-attivita.html", values);
+
+				message.setContent(htmlContent, "text/html; charset=utf-8");
+
+				sendMessage(message);
+
+			} catch (Exception e) {
+				e.printStackTrace(Trace.excStream);
+			}
+		}
 	}
 
 	public static synchronized int clearIncaricato(AttivitaSoftre attivita) throws SQLException{
@@ -473,63 +577,36 @@ public class AttivitaSoftre extends AttivitaSoftrePO {
 
 	public Session sessionForSendMail() {
 		if(session == null) {
-			//			try {
-			//				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
-			//				Properties props = new Properties();  
-			//				props.put("mail.smtp.host", conf.getSMTPServer());
-			//				props.put("mail.from", "info@softre.it");
-			//				props.put("mail.smtp.port", 25);
-			//
-			//				MailSSLSocketFactory trustAllSocketFactory = null;
-			//				try {
-			//					trustAllSocketFactory = new MailSSLSocketFactory();
-			//					trustAllSocketFactory.setTrustAllHosts(true);		
-			//				}
-			//				catch (Exception e) {
-			//					e.printStackTrace(Trace.excStream);
-			//				}
-			//				Authenticator auth = null;
-			//				if (conf.getSMTPAccount() != null && conf.getSMTPPassword() != null && conf.getSMTPPassword().length() != 0 && conf.getSMTPPassword().length() != 0){//Fix 30398 
-			//					auth = new javax.mail.Authenticator() {protected PasswordAuthentication getPasswordAuthentication() {
-			//						return new PasswordAuthentication(conf.getSMTPAccount(),conf.getSMTPPassword());}};
-			//				}
-			//				if (auth != null) { 
-			//					props.put("mail.smtp.auth", "true");
-			//					session = Session.getInstance(props, auth);
-			//				} else {
-			//					props.put("mail.smtp.auth", "false");
-			//					session = Session.getInstance(props, null); 
-			//				};
-			//			}catch (SQLException e) {
-			//				e.printStackTrace(Trace.excStream);
-			//			}
-			//XXX DA ABILITARE SOPRA
 			try {
-//				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
+				final SSDConfiguration conf = (SSDConfiguration) SSDConfiguration.elementWithKey("0", PersistentObject.NO_LOCK);
 				Properties props = new Properties();  
-				MailSSLSocketFactory trustAllSocketFactory = null;
-				trustAllSocketFactory = new MailSSLSocketFactory();
-				trustAllSocketFactory.setTrustAllHosts(true);
-				
-				props.put("mail.smtp.host", "smtp.ethereal.email");
-				props.put("mail.smtp.port", "587");
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.starttls.enable", "true");
-				props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+				props.put("mail.smtp.host", conf.getSMTPServer());
+				props.put("mail.from", "info@softre.it");
+				props.put("mail.smtp.port", 25);
 
-				session = Session.getInstance(props,
-				    new Authenticator() {
-				        protected PasswordAuthentication getPasswordAuthentication() {
-				            return new PasswordAuthentication(
-				                "rahul.beatty@ethereal.email",
-				                "MffDyqZ3bmZvhbeCrF");
-				        }
-				    });
-				
-			}catch (Exception e) {
+				MailSSLSocketFactory trustAllSocketFactory = null;
+				try {
+					trustAllSocketFactory = new MailSSLSocketFactory();
+					trustAllSocketFactory.setTrustAllHosts(true);		
+				}
+				catch (Exception e) {
+					e.printStackTrace(Trace.excStream);
+				}
+				Authenticator auth = null;
+				if (conf.getSMTPAccount() != null && conf.getSMTPPassword() != null && conf.getSMTPPassword().length() != 0 && conf.getSMTPPassword().length() != 0){//Fix 30398 
+					auth = new javax.mail.Authenticator() {protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(conf.getSMTPAccount(),conf.getSMTPPassword());}};
+				}
+				if (auth != null) { 
+					props.put("mail.smtp.auth", "true");
+					session = Session.getInstance(props, auth);
+				} else {
+					props.put("mail.smtp.auth", "false");
+					session = Session.getInstance(props, null); 
+				};
+			}catch (SQLException e) {
 				e.printStackTrace(Trace.excStream);
 			}
-
 		}
 		return session;
 	}

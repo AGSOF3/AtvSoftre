@@ -6,6 +6,7 @@
     errorList="yes" menubar="yes" toolbar="yes" submitReset="none"
     jsLibraryName="it/softre/thip/base/attivita/AttivitaSoftre.js"
     webFormModifierClass="it.softre.thip.base.attivita.web.AttivitaSoftreFormModifier"
+    servlet="it.softre.thip.base.attivita.web.AttivitaSoftreFormActionAdapter"
     onLoadPresent="yes"
     footer="com.thera.thermfw.common.Footer.jsp">
     <toolbar name="myToolBar" imgwidth="16" imgheight="16">
@@ -34,6 +35,7 @@
         <combobox name="Priorita" classAD="Priorita"/>
         <textinput name="CommessaSmeup" classAD="CommessaSmeup"/>
         <combobox name="StatoAttivita" classAD="StatoAttivita"/>
+        <checkbox name="InvioRiepilogoRichiedente" classAD="InvioRiepilogoRichiedente"/>
       </tab>
       <tab name="tab2" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab2">
         <textarea name="LinkAnalisi" classAD="LinkAnalisi"/>

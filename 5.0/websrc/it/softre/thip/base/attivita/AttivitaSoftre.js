@@ -1,0 +1,54 @@
+function AttivitaSoftreOL() {
+	window.resizeTo(window.screen.availWidth, window.screen.availHeight);
+	document.getElementById('QuotazioneOre').addEventListener('change', valorizzaGiorni);
+	document.getElementById('DocumentazioneFrame').src = document.getElementById('LinkDocumentazione').value;
+	document.getElementById('AnalisiFrame').src = document.getElementById('LinkAnalisi').value;
+	//Se non ho il cliente non permetto di inserire una fix
+	var oldeditGridNewRow = editGridNewRow;
+	editGridNewRow = function(classHdrName) {
+		if (classHdrName == 'AttivitaFixes') {
+			let idCliente = document.getElementById('IdClienteSoftre').value;
+			if (idCliente != null && idCliente != undefined && idCliente != "")
+				oldeditGridNewRow(classHdrName);
+		} else {
+			oldeditGridNewRow(classHdrName);
+		}
+	}
+	document.getElementById('NomeAttivita').focus();
+}
+
+function valorizzaGiorni(event) {
+	let ore = document.getElementById('QuotazioneOre');
+	let giorni = document.getElementById('QuotazioneGg');
+	if (ore != null && ore != undefined && ore != "") {
+		let ggs = (parseFloat(ore.value) / 8).toFixed(2);
+		ggs = ggs.toString().replace('.', ',');
+		giorni.value = ggs;
+	}
+}
+
+function getURLWS() {
+	var ris;
+	var url = window.location.href;
+	var cut = url.indexOf(webAppPath);
+	ris = url.substring(0, cut);
+	ris += webAppPath;
+	ris += "/api";
+	return ris;
+}
+
+function getBearerTokenFromLocalStorage() {
+	var jwt = null;
+	jwt = 'Bearer ' + localStorage.getItem("pth-" + location.pathname.split("/")[1].toLowerCase() + "-jwt");
+	return jwt;
+}
+
+var oldrunActionDirect = runActionDirect;
+
+runActionDirect = function(action, type, classhdr, key, target, toolbar) {
+	if (action === "INV_RIE_RICH") {
+		document.forms[0].InvioRiepilogoRichiedente.checked = true;
+		action = "SAVE";
+	}
+	oldrunActionDirect(action, type, classhdr, key, target, toolbar);
+}
